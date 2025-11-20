@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsGrid3X3Gap } from "react-icons/bs";
 import { FaList } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { UsersList } from "../components/UsersList";
 import { UsersGrid } from "../components/UsersGrid";
 import { useFilteredUsers } from "../hooks/useFilteredUsers";
@@ -45,23 +46,37 @@ export const UsersView = () => {
     setExpandedUserId((prev) => (prev === userId ? null : userId));
   };
 
-  if (isLoading) {
-    return (
-      <div className="users-view">
-        <div className="loading">Loading users...</div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="users-view">
-        <div className="error">
-          Error loading users. Please try again later.
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="loading">
+          <AiOutlineLoading3Quarters className="spinner" size={48} />
         </div>
-      </div>
+      );
+    }
+
+    if (isError) {
+      return (
+        <div className="error">
+          <p>Error loading users. Please try again later.</p>
+        </div>
+      );
+    }
+
+    return viewMode === "grid" ? (
+      <UsersGrid
+        users={filteredData}
+        expandedUserId={expandedUserId}
+        onToggleExpand={toggleExpanded}
+      />
+    ) : (
+      <UsersList
+        users={filteredData}
+        expandedUserId={expandedUserId}
+        onToggleExpand={toggleExpanded}
+      />
     );
-  }
+  };
 
   return (
     <div className="users-view">
@@ -79,7 +94,7 @@ export const UsersView = () => {
           hasActiveFilter={hasActiveFilter}
         />
 
-        {filteredData.length !== data?.length && (
+        {!isLoading && !isError && filteredData.length !== data?.length && (
           <div className="search-results-info">
             Showing {filteredData.length} of {data?.length ?? 0} users
           </div>
@@ -90,6 +105,7 @@ export const UsersView = () => {
             onClick={() => setViewMode("grid")}
             className={`btn-view ${viewMode === "grid" ? "active" : ""}`}
             title="Grid View"
+            disabled={isLoading}
           >
             <BsGrid3X3Gap size={20} />
           </button>
@@ -97,24 +113,14 @@ export const UsersView = () => {
             onClick={() => setViewMode("list")}
             className={`btn-view ${viewMode === "list" ? "active" : ""}`}
             title="List View"
+            disabled={isLoading}
           >
             <FaList size={20} />
           </button>
         </div>
       </div>
-      {viewMode === "grid" ? (
-        <UsersGrid
-          users={filteredData}
-          expandedUserId={expandedUserId}
-          onToggleExpand={toggleExpanded}
-        />
-      ) : (
-        <UsersList
-          users={filteredData}
-          expandedUserId={expandedUserId}
-          onToggleExpand={toggleExpanded}
-        />
-      )}
+
+      {renderContent()}
     </div>
   );
 };
