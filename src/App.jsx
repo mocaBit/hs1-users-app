@@ -1,12 +1,7 @@
-import { Users } from './views/Users'
+import { UsersView } from './views/Users'
 
 function App() {
-
-  return (
-    <>
-      <h1>HS1 Users App</h1>
-    </>
-  )
+  return <UsersView />
 }
 
 export default App
