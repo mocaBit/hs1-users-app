@@ -9,7 +9,18 @@ export interface UseUsersReturn {
   isError: boolean;
 }
 
-export const useUsers = (): UseUsersReturn => {
+export interface UseUsersOptions {
+  /** Simulated delay in milliseconds before fetching data */
+  simulateDelay?: number;
+  /** Force an error to occur for testing purposes */
+  simulateError?: boolean;
+}
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+export const useUsers = (options?: UseUsersOptions): UseUsersReturn => {
+  const { simulateDelay = 0, simulateError = false } = options || {};
+
   const [data, setData] = useState<User[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -19,6 +30,16 @@ export const useUsers = (): UseUsersReturn => {
       try {
         setIsLoading(true);
         setIsError(false);
+
+        // Simulate delay if specified
+        if (simulateDelay > 0) {
+          await delay(simulateDelay);
+        }
+
+        // Simulate error if specified
+        if (simulateError) {
+          throw new Error('Simulated error for testing');
+        }
 
         const response = await fetch(ENDPOINT_URL);
 
@@ -37,7 +58,7 @@ export const useUsers = (): UseUsersReturn => {
     };
 
     fetchUsers();
-  }, []);
+  }, [simulateDelay, simulateError]);
 
   return { data, isLoading, isError };
 };

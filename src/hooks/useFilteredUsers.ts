@@ -1,18 +1,18 @@
 import { useState, useMemo } from 'react';
-import { useUsers, UseUsersReturn } from './useUsers';
+import { useUsers, UseUsersReturn, UseUsersOptions } from './useUsers';
 import { User } from '../types/User';
 
 type FilterFunction = (user: User) => boolean;
 
 interface UseFilteredUsersReturn extends UseUsersReturn {
-  filteredData: User[]; 
+  filteredData: User[];
   hasActiveFilter: boolean;
   applyFilter: (filterFn: FilterFunction) => void;
   clearFilter: () => void;
 }
 
-export const useFilteredUsers = (): UseFilteredUsersReturn => {
-  const { data, isLoading, isError } = useUsers();
+export const useFilteredUsers = (options?: UseUsersOptions): UseFilteredUsersReturn => {
+  const { data, isLoading, isError } = useUsers(options);
   const [filterFunction, setFilterFunction] = useState<FilterFunction | null>(null);
 
   const filteredData = useMemo(() => {
