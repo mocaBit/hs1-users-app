@@ -5,15 +5,15 @@ import './UsersList.css';
 
 interface UsersListViewProps {
   users: User[];
-  expandedUsers: number[];
+  expandedUserId: number | null;
   onToggleExpand: (userId: number) => void;
 }
 
-export const UsersList = ({ users, expandedUsers, onToggleExpand }: UsersListViewProps) => {
+export const UsersList = ({ users, expandedUserId, onToggleExpand }: UsersListViewProps) => {
   return (
     <div className="users-list-view">
       {users.map((user) => {
-        const isExpanded = expandedUsers.includes(user.id);
+        const isExpanded = expandedUserId === user.id;
 
         return (
           <div key={user.id} className="user-row">

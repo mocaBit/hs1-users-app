@@ -21,7 +21,7 @@ export const UsersView = () => {
   } = useFilteredUsers();
 
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [expandedUsers, setExpandedUsers] = useState<number[]>([]);
+  const [expandedUserId, setExpandedUserId] = useState<number | null>(null);
 
   const handleSearch = (searchTerm: string) => {
     if (searchTerm.trim() === "") {
@@ -42,11 +42,7 @@ export const UsersView = () => {
   };
 
   const toggleExpanded = (userId: number) => {
-    setExpandedUsers((prev) =>
-      prev.includes(userId)
-        ? prev.filter((id) => id !== userId)
-        : [...prev, userId]
-    );
+    setExpandedUserId((prev) => (prev === userId ? null : userId));
   };
 
   if (isLoading) {
@@ -109,13 +105,13 @@ export const UsersView = () => {
       {viewMode === "grid" ? (
         <UsersGrid
           users={filteredData}
-          expandedUsers={expandedUsers}
+          expandedUserId={expandedUserId}
           onToggleExpand={toggleExpanded}
         />
       ) : (
         <UsersList
           users={filteredData}
-          expandedUsers={expandedUsers}
+          expandedUserId={expandedUserId}
           onToggleExpand={toggleExpanded}
         />
       )}

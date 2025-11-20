@@ -5,15 +5,15 @@ import './UsersGrid.css';
 
 interface UsersGridProps {
   users: User[];
-  expandedUsers: number[];
+  expandedUserId: number | null;
   onToggleExpand: (userId: number) => void;
 }
 
-export const UsersGrid = ({ users, expandedUsers, onToggleExpand }: UsersGridProps) => {
+export const UsersGrid = ({ users, expandedUserId, onToggleExpand }: UsersGridProps) => {
   return (
     <div className="users-grid-view">
       {users.map((user) => {
-        const isExpanded = expandedUsers.includes(user.id);
+        const isExpanded = expandedUserId === user.id;
 
         return (
           <div key={user.id} className="user-card">
