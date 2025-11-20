@@ -1,5 +1,6 @@
 import { User } from '../types/User';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { Avatar } from './Avatar';
 import './UsersList.css';
 
 interface UsersListViewProps {
@@ -7,15 +8,6 @@ interface UsersListViewProps {
   expandedUsers: number[];
   onToggleExpand: (userId: number) => void;
 }
-
-const getInitials = (name: string): string => {
-  return name
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
-};
 
 export const UsersList = ({ users, expandedUsers, onToggleExpand }: UsersListViewProps) => {
   return (
@@ -25,7 +17,7 @@ export const UsersList = ({ users, expandedUsers, onToggleExpand }: UsersListVie
 
         return (
           <div key={user.id} className="user-row">
-            <div className="user-avatar">{getInitials(user.name)}</div>
+            <Avatar name={user.name} size="medium" />
             <div className="user-row-content">
               <div className="user-row-name">{user.name}</div>
               <div className="user-row-details">

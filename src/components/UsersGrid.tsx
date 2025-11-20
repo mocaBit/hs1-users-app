@@ -1,5 +1,6 @@
 import { User } from '../types/User';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { Avatar } from './Avatar';
 import './UsersGrid.css';
 
 interface UsersGridProps {
@@ -7,15 +8,6 @@ interface UsersGridProps {
   expandedUsers: number[];
   onToggleExpand: (userId: number) => void;
 }
-
-const getInitials = (name: string): string => {
-  return name
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
-};
 
 export const UsersGrid = ({ users, expandedUsers, onToggleExpand }: UsersGridProps) => {
   return (
@@ -33,7 +25,7 @@ export const UsersGrid = ({ users, expandedUsers, onToggleExpand }: UsersGridPro
               {isExpanded ? <IoChevronUp size={20} /> : <IoChevronDown size={20} />}
             </button>
 
-            <div className="user-avatar">{getInitials(user.name)}</div>
+            <Avatar name={user.name} size="large" />
             <h3>{user.name}</h3>
             <p className="user-email">{user.email}</p>
             <p className="user-company">{user.company.name}</p>
