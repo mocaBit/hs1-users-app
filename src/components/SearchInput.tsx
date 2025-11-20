@@ -5,16 +5,12 @@ import './SearchInput.css';
 interface SearchInputProps {
   onSearch: (searchTerm: string) => void;
   onClear: () => void;
-  resultCount: number;
-  totalCount: number;
   hasActiveFilter: boolean;
 }
 
 export const SearchInput = ({
   onSearch,
   onClear,
-  resultCount,
-  totalCount,
   hasActiveFilter
 }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,12 +46,6 @@ export const SearchInput = ({
           </button>
         )}
       </div>
-
-      {searchTerm && (
-        <div className="search-results-info">
-          Showing {resultCount} of {totalCount} users
-        </div>
-      )}
     </div>
   );
 };
