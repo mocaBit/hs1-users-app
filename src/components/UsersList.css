@@ -83,11 +83,8 @@
 }
 
 .user-expanded-info {
-  margin-top: var(--spacing-md);
-  padding-top: var(--spacing-md);
   border-top: 1px solid var(--color-border);
-  animation: slideDown 0.3s ease-out;
-  transform-origin: top;
+  overflow: hidden;
 }
 
 .expanded-row {

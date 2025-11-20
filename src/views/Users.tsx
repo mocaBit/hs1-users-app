@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { BsGrid3X3Gap } from "react-icons/bs";
 import { FaList } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -83,7 +84,19 @@ export const UsersView = () => {
       <header className="users-header">
         <h1>Users Directory</h1>
         <p className="users-count">
-          {hasActiveFilter && <span className="filter-badge">Filtered</span>}
+          <AnimatePresence>
+            {hasActiveFilter && (
+              <motion.span
+                className="filter-badge"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                Filtered
+              </motion.span>
+            )}
+          </AnimatePresence>
         </p>
       </header>
 
@@ -94,11 +107,19 @@ export const UsersView = () => {
           hasActiveFilter={hasActiveFilter}
         />
 
-        {!isLoading && !isError && filteredData.length !== data?.length && (
-          <div className="search-results-info">
-            Showing {filteredData.length} of {data?.length ?? 0} users
-          </div>
-        )}
+        <AnimatePresence>
+          {!isLoading && !isError && filteredData.length !== data?.length && (
+            <motion.div
+              className="search-results-info"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              Showing {filteredData.length} of {data?.length ?? 0} users
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="view-toggle">
           <button
