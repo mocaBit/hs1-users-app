@@ -1,16 +1,41 @@
-# React + Vite
+# HS1 Users App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript application for managing and viewing user data from JSONPlaceholder API.
 
-Currently, two official plugins are available:
+### Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd hs1-users-app
+```
 
-## React Compiler
+2. Install dependencies:
+```bash
+npm install
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. Start the development server:
+```bash
+npm run dev
+```
 
-## Expanding the ESLint configuration
+### Simulate Network Delay
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Test loading states by adding a delay before data fetching:
+
+```typescript
+// In src/views/Users.tsx
+const { filteredData, data, isLoading, isError, applyFilter, clearFilter, hasActiveFilter } =
+  useFilteredUsers({ simulateDelay: 2000 }); // 2 second delay
+```
+
+### Simulate Error State
+
+Test error handling by forcing an error:
+
+```typescript
+// In src/views/Users.tsx
+const { filteredData, data, isLoading, isError, applyFilter, clearFilter, hasActiveFilter } =
+  useFilteredUsers({ simulateError: true });
+```
