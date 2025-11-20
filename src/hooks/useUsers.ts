@@ -3,7 +3,7 @@ import { User } from '../types/User';
 
 const ENDPOINT_URL = 'https://jsonplaceholder.typicode.com/users';
 
-interface UseUsersReturn {
+export interface UseUsersReturn {
   data: User[] | null;
   isLoading: boolean;
   isError: boolean;
